@@ -7,3 +7,10 @@ export const LOGIN_FAILURE = 'sessions/LOGIN_FAILURE';
 export const LOGOUT_SUCCESS = 'sessions/LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'sessions/LOGOUT_FAILURE';
 export const CLEAR_ERROR = 'sessions/CLEAR_ERROR';
+
+export const registerActionSuccess = (payload: string) => (
+    {
+      type: SIGN_UP_SUCCESS,
+      payload,
+    }
+)

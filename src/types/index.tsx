@@ -10,10 +10,7 @@ export interface InstanceType {
   };
 }
 
-enum AuthorityRole {
-  ROLE_STUDENT = "ROLE_STUDENT",
-  ROLE_ADMIN = "ROLE_ADMIN"
-}
+type AuthorityRole = "ROLE_STUDENT"|"ROLE_ADMIN"
 
 export interface RegisterActionType {
   userName: string;
@@ -21,7 +18,7 @@ export interface RegisterActionType {
   password: string;
   confirmPassword: string;
   verificationCode: string;
-  createTime: string;
+  createTime?: string;
   enabled: boolean;
   authority: AuthorityRole;
 }
