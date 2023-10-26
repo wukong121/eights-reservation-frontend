@@ -1,0 +1,6 @@
+.session-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 设置容器高度为屏幕高度，以实现垂直居中 */
+}
