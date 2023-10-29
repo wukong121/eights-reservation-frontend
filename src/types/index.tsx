@@ -4,21 +4,23 @@ export interface RouteProps {
   children: ReactNode;
 }
 
-export interface InstanceType {
-  headers: {
-    'Content-Type': string;
-  };
+type AuthorityRole = "ROLE_STUDENT" | "ROLE_ADMIN"
+
+export interface SignUpValueType {
+  email: string;
+  gender: string;
+  nickName: string;
+  password: string;
+  confirm: string;
+  phone: string;
+  prefix: string;
+  userName: string;
+  agreement: boolean;
 }
 
-type AuthorityRole = "ROLE_STUDENT"|"ROLE_ADMIN"
-
-export interface RegisterActionType {
-  userName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  verificationCode: string;
-  createTime?: string;
-  enabled: boolean;
-  authority: AuthorityRole;
+export interface RegisterResponseType {
+  status: string;
+  code: number;
+  message: string;
+  data: string;
 }

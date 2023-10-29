@@ -1,9 +1,9 @@
-import {InstanceType} from "../types";
+import {AxiosRequestConfig} from "axios";
 
-const instance: InstanceType = {
+const config: AxiosRequestConfig = {
   headers: {
     'Content-Type': 'application/json',
   },
 };
 
-export default instance;
+export default config;

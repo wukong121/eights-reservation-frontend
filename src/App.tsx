@@ -1,36 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './assets/styles/App.css';
 import Login from "./components/sessions/Login";
 import {Route, Routes} from "react-router-dom";
 import Page404 from "./pages/404";
+import Signup from "./components/sessions/Signup";
+import Home from "./pages/Home";
+import PublicRoute from "./components/routes/PublicRoute";
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://github.com/wukong121"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Visit my profile :)
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 function App() {
   return (
       <div className="App">
         <Routes>
           <Route path="*" element={<Page404/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login/>
+            </PublicRoute>
+          }/>
+          <Route path="/signup" element={
+            <PublicRoute>
+              <Signup/>
+            </PublicRoute>
+          }/>
+          <Route path="/home" element={<Home/>}/>
         </Routes>
       </div>
   );
