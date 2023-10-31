@@ -6,6 +6,7 @@ import Page404 from "./pages/404";
 import Signup from "./components/sessions/Signup";
 import Home from "./pages/Home";
 import PublicRoute from "./components/routes/PublicRoute";
+import Success from "./pages/Success";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             </PublicRoute>
           }/>
           <Route path="/home" element={<Home/>}/>
+          <Route path="/success" element={<Success/>}/>
         </Routes>
       </div>
   );

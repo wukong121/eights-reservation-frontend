@@ -52,7 +52,7 @@ const Signup: React.FC = () => {
     console.log('Received values of form: ', values);
     const response = await registerAction(values);
     if (response && response.status === "success") {
-      navigate("/login");
+      navigate("/success");
     }
 
   };
