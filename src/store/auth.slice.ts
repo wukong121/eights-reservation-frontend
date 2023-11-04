@@ -1,14 +1,17 @@
-import {PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {loginAction, logoutAction} from "../api/sessionAPI";
+
 
 type User = {
   userId: string;
   username: string;
 }
+
 interface AuthState {
   value: {
     user: User;
     token: string;
-  };
+  } | null;
 }
 
 const safeJSONParse = (item: string | null) => {
@@ -29,12 +32,22 @@ const createInitState = () => {
   };
 };
 
-const createReducers = {
-  setAuth: (state: AuthState, action: PayloadAction<{ user: User; token: string; }>) => {
-    state.value = action.payload;
-  },
+const createReducers = () => {
+  return {
+    setAuth: (state: AuthState, action: PayloadAction<{ user: User; token: string; } | null>) => {
+      state.value = action.payload;
+    }
+  };
 }
 
+const name = 'auth';
+const initState = createInitState();
+const reducers = createReducers();
+const slice = createSlice({
+  name: name,
+  initialState: initState,
+  reducers: reducers
+});
 
-
-export {};
+export const authActions = {...slice.actions, loginAction, logoutAction};
+export const authReducer = slice.reducer;

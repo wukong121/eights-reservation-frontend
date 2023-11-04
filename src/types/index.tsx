@@ -24,3 +24,8 @@ export interface RegisterResponseType {
   message: string;
   data: string;
 }
+
+export interface LoginValueType {
+  userName: string;
+  password: string;
+}

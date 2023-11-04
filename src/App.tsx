@@ -1,14 +1,17 @@
 import React from 'react';
 import './assets/styles/App.css';
 import Login from "./components/sessions/Login";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Page404 from "./pages/404";
 import Signup from "./components/sessions/Signup";
 import Home from "./pages/Home";
 import PublicRoute from "./components/routes/PublicRoute";
 import Success from "./pages/Success";
+import {history} from "./helpers/history";
 
 function App() {
+  history.location = useLocation();
+  history.navigate = useNavigate();
   return (
       <div className="App">
         <Routes>
