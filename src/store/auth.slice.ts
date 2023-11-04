@@ -4,10 +4,10 @@ import {loginAction, logoutAction} from "../api/sessionAPI";
 
 type User = {
   userId: string;
-  username: string;
+  userName: string;
 }
 
-interface AuthState {
+export interface AuthState {
   value: {
     user: User;
     token: string;
@@ -26,7 +26,7 @@ const safeJSONParse = (item: string | null) => {
   }
 }
 
-const createInitState = () => {
+const createInitState = (): AuthState => {
   return {
     value: safeJSONParse(localStorage.getItem("auth")),
   };

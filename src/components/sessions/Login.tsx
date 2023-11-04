@@ -3,10 +3,15 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Card} from 'antd';
 import '../../assets/styles/_Sessions.css'
 import {ReactComponent as Logo} from "../../assets/images/Logo.svg"
+import {LoginValueType} from "../../types";
+import {store} from "../../store";
+import {simulateLogin} from "../../helpers/fakeBackend";
+import {loginAction} from "../../api/sessionAPI";
 
 const Login: React.FC = () => {
-  const onFinish = (values: any) => {
+  const onFinish = async (values: LoginValueType) => {
     console.log('Received values of form: ', values);
+    await store.dispatch(loginAction(values));
   };
 
   return (
@@ -22,7 +27,7 @@ const Login: React.FC = () => {
               onFinish={onFinish}
           >
             <Form.Item
-                name="username"
+                name="userName"
                 rules={[{required: true, message: 'Please input your Username!'}]}
             >
               <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
@@ -48,7 +53,7 @@ const Login: React.FC = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-form-button" href="/home">
+              <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
               </Button>
               {' '}Or <a href="/signup">register now!</a>

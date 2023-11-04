@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import PublicRoute from "./components/routes/PublicRoute";
 import Success from "./pages/Success";
 import {history} from "./helpers/history";
+import PrivateRoute from "./components/routes/PrivateRoute";
 
 function App() {
   history.location = useLocation();
@@ -26,8 +27,16 @@ function App() {
               <Signup/>
             </PublicRoute>
           }/>
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/success" element={<Success/>}/>
+          <Route path="/home" element={
+            <PrivateRoute>
+              <Home/>
+            </PrivateRoute>
+          }/>
+          <Route path="/success" element={
+            <PrivateRoute>
+              <Success/>
+            </PrivateRoute>
+          }/>
         </Routes>
       </div>
   );

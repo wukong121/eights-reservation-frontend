@@ -1,10 +1,11 @@
 import {LoginValueType, SignUpValueType} from "../types";
 import axios, {AxiosError} from "axios";
 import config from "./axios";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, Dispatch} from "@reduxjs/toolkit";
 import {alertActions} from "../store/alert.slice";
 import {authActions} from "../store/auth.slice";
 import {history} from "../helpers/history";
+import {simulateLogin} from "../helpers/fakeBackend";
 
 const BASE_URL: string = 'http://localhost:8080/api/v1';
 const LOGIN_URL: string = `${BASE_URL}/oauth/token`;
@@ -27,14 +28,18 @@ export const registerAction = async (value: SignUpValueType) => {
   }
 };
 
-export const loginAction = () => createAsyncThunk('auth/login', async (value: LoginValueType, {dispatch}) => {
+export const loginAction = createAsyncThunk('auth/login', async (value: LoginValueType, {dispatch}) => {
   dispatch(alertActions.clear());
   try {
-    const response = await axios.post(LOGIN_URL, value, config);
+    // const response = await axios.post(LOGIN_URL, value, config);
+    const simulateResponse = await simulateLogin();
+    const response = await simulateResponse.json()
+    console.log("simulated response: ", response);
     dispatch(authActions.setAuth(response.data));
     // store user details and jwt token in local storage to keep user logged in between page refreshes
     localStorage.setItem('auth', JSON.stringify(response.data));
     const {from} = history.location!.state || {from: {pathname: "/"}};
+    console.log("from: ", from);
     history.navigate!(from);
   } catch (error: any) {
     console.log(error);
@@ -42,7 +47,7 @@ export const loginAction = () => createAsyncThunk('auth/login', async (value: Lo
   }
 });
 
-export const logoutAction = () => createAsyncThunk('auth/logout', async (value: any, {dispatch}) => {
+export const logoutAction = createAsyncThunk('auth/logout', async (value: any, {dispatch}) => {
   dispatch(authActions.setAuth(null));
   localStorage.removeItem('auth');
   history.navigate!('/login');
