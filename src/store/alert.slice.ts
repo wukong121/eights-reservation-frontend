@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 interface AlertState {
   value: {
-    type: string;
+    type: 'success' | 'error' | 'info' | 'warning';
     message: string;
     showAfterRedirect?: boolean;
   } | null;
@@ -18,7 +18,7 @@ const createReducers = {
   success: (state: AlertState,
             action: PayloadAction<{ message: string; showAfterRedirect?: boolean }>) => {
     state.value = {
-      type: 'alert-success',
+      type: 'success',
       message: action.payload.message,
       showAfterRedirect: action.payload.showAfterRedirect,
     };
@@ -26,7 +26,7 @@ const createReducers = {
   error: (state: AlertState,
           action: PayloadAction<{ message: string; showAfterRedirect?: boolean }>) => {
     state.value = {
-      type: 'alert-danger',
+      type: 'error',
       message: action.payload.message,
       showAfterRedirect: action.payload.showAfterRedirect,
     };

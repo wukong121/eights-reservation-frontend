@@ -7,7 +7,12 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type {MenuProps} from 'antd';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {Breadcrumb, Button, Col, Layout, Menu, message, Row, Space, theme} from 'antd';
+import {RootState, store} from "../store";
+import {logoutAction} from "../api/sessionAPI";
+import {authActions} from "../store/auth.slice";
+import {useDispatch} from "react-redux";
+import {alertActions} from "../store/alert.slice";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -40,10 +45,29 @@ const items: MenuItem[] = [
 ];
 
 const Home: React.FC = () => {
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: {colorBgContainer},
   } = theme.useToken();
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'You have successfully exited!✨',
+    });
+  };
+
+  const onclick = async () => {
+    await store.dispatch(authActions.logoutAction(null));
+    dispatch(alertActions.success({message: 'You have successfully exited!✨', showAfterRedirect: true}));
+  }
+
+  const onclickTest = async () => {
+    success();
+  }
 
   return (
       <Layout style={{minHeight: '100vh'}}>
@@ -52,7 +76,18 @@ const Home: React.FC = () => {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}/>
         </Sider>
         <Layout>
-          <Header style={{padding: 0, background: colorBgContainer}}/>
+          <Header style={{padding: 0, background: colorBgContainer}}>
+            {contextHolder}
+            <Row>
+              <Col span={20}></Col>
+              <Col span={4}>
+                <Space>
+                  <Button onClick={onclick}>logout</Button>
+                  <Button onClick={onclickTest}>test</Button>
+                </Space>
+              </Col>
+            </Row>
+          </Header>
           <Content style={{margin: '0 16px'}}>
             <Breadcrumb style={{margin: '16px 0'}}>
               <Breadcrumb.Item>User</Breadcrumb.Item>

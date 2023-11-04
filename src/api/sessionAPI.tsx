@@ -48,7 +48,7 @@ export const loginAction = createAsyncThunk('auth/login', async (value: LoginVal
 });
 
 export const logoutAction = createAsyncThunk('auth/logout', async (value: any, {dispatch}) => {
-  dispatch(authActions.setAuth(null));
+  dispatch(authActions.setAuth(value));
   localStorage.removeItem('auth');
   history.navigate!('/login');
 })
