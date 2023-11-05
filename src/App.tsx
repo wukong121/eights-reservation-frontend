@@ -1,7 +1,7 @@
 import React from 'react';
 import './assets/styles/App.css';
 import Login from "./components/sessions/Login";
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Page404 from "./pages/404";
 import Signup from "./components/sessions/Signup";
 import Home from "./pages/Home";
@@ -16,7 +16,10 @@ function App() {
   return (
       <div className="App">
         <Routes>
-          <Route path="*" element={<Page404/>}/>
+          <Route path="/*" element={<Page404/>}/>
+          <Route path='/' element={
+            <Navigate to='/home'></Navigate>
+          }/>
           <Route path="/login" element={
             <PublicRoute>
               <Login/>

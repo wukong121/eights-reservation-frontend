@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {store} from "./store";
-import MessageWrapper from "./helpers/MessageWrapper";
+import MessageWrapper from "./components/MessageWrapper";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -4,14 +4,19 @@ import {Button, Checkbox, Form, Input, Card} from 'antd';
 import '../../assets/styles/_Sessions.css'
 import {ReactComponent as Logo} from "../../assets/images/Logo.svg"
 import {LoginValueType} from "../../types";
-import {store} from "../../store";
+import {RootState, store} from "../../store";
 import {simulateLogin} from "../../helpers/fakeBackend";
 import {loginAction} from "../../api/sessionAPI";
+import {useDispatch, useSelector} from "react-redux";
+import {alertActions} from "../../store/alert.slice";
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const onFinish = async (values: LoginValueType) => {
     console.log('Received values of form: ', values);
     await store.dispatch(loginAction(values));
+    const auth = JSON.parse(localStorage.getItem('auth')!);
+    dispatch(alertActions.success({message: `Hello ${auth.user.userName}!🌈`, showAfterRedirect: true}))
   };
 
   return (

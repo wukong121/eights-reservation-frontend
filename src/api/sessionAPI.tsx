@@ -38,12 +38,13 @@ export const loginAction = createAsyncThunk('auth/login', async (value: LoginVal
     dispatch(authActions.setAuth(response.data));
     // store user details and jwt token in local storage to keep user logged in between page refreshes
     localStorage.setItem('auth', JSON.stringify(response.data));
-    const {from} = history.location!.state || {from: {pathname: "/"}};
+    const {from} = history.location!.state || {from: {pathname: "/home"}};
+    console.log("history: ", history);
     console.log("from: ", from);
     history.navigate!(from);
   } catch (error: any) {
     console.log(error);
-    dispatch(alertActions.error({message: error}))
+    dispatch(alertActions.error({message: error, showAfterRedirect: true}))
   }
 });
 

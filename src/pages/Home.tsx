@@ -56,7 +56,7 @@ const Home: React.FC = () => {
   const success = () => {
     messageApi.open({
       type: 'success',
-      content: 'You have successfully exited!✨',
+      content: 'Successfully popped up!✨',
     });
   };
 

@@ -7,7 +7,6 @@ import {RootState} from "../../store";
 
 const PrivateRoute: React.FC<RouteProps> = ({children}) => {
   const auth = useSelector((state: RootState) => state.auth.value)
-  console.log("auth: ", auth);
   if (!auth) {
     return <Navigate to="/login" state={{from: history.location}}/>
   }
