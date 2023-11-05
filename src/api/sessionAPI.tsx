@@ -16,7 +16,7 @@ const CURRENT_USER_URL: string = `${BASE_URL}/users/me`;
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
-export const registerAction = async (value: SignUpValueType) => {
+export const register = async (value: SignUpValueType) => {
   try {
     const response = await axios.post(SIGNUP_URL, value, config);
     console.log(response);
@@ -31,17 +31,22 @@ export const registerAction = async (value: SignUpValueType) => {
 export const loginAction = createAsyncThunk('auth/login', async (value: LoginValueType, {dispatch}) => {
   dispatch(alertActions.clear());
   try {
-    // const response = await axios.post(LOGIN_URL, value, config);
-    const simulateResponse = await simulateLogin();
-    const response = await simulateResponse.json()
-    console.log("simulated response: ", response);
+    const response = await axios.post(LOGIN_URL, value, config);
+    console.log('login response: ', response);
+    // fake-backend for test
+    // const simulateResponse = await simulateLogin();
+    // const response = await simulateResponse.json()
+    // console.log("simulated response: ", response);
+    if (response.data.code !== 200) {
+      dispatch(alertActions.error({message: response.data.message, showAfterRedirect: true}))
+      return;
+    }
     dispatch(authActions.setAuth(response.data));
     // store user details and jwt token in local storage to keep user logged in between page refreshes
     localStorage.setItem('auth', JSON.stringify(response.data));
     const {from} = history.location!.state || {from: {pathname: "/home"}};
-    console.log("history: ", history);
-    console.log("from: ", from);
     history.navigate!(from);
+    dispatch(alertActions.success({message: `Hello ${response.data.data.user.userName} 🌈`, showAfterRedirect: true}))
   } catch (error: any) {
     console.log(error);
     dispatch(alertActions.error({message: error, showAfterRedirect: true}))
@@ -51,5 +56,6 @@ export const loginAction = createAsyncThunk('auth/login', async (value: LoginVal
 export const logoutAction = createAsyncThunk('auth/logout', async (value: any, {dispatch}) => {
   dispatch(authActions.setAuth(value));
   localStorage.removeItem('auth');
+  dispatch(alertActions.success({message: 'You have successfully exited ✨', showAfterRedirect: true}));
   history.navigate!('/login');
 })

@@ -9,15 +9,21 @@ import {simulateLogin} from "../../helpers/fakeBackend";
 import {loginAction} from "../../api/sessionAPI";
 import {useDispatch, useSelector} from "react-redux";
 import {alertActions} from "../../store/alert.slice";
+import {history} from "../../helpers/history";
+import {useNavigate} from "react-router-dom";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onFinish = async (values: LoginValueType) => {
     console.log('Received values of form: ', values);
     await store.dispatch(loginAction(values));
-    const auth = JSON.parse(localStorage.getItem('auth')!);
-    dispatch(alertActions.success({message: `Hello ${auth.user.userName}!🌈`, showAfterRedirect: true}))
   };
+
+  const onClick = () => {
+    dispatch(alertActions.success({message: 'Please fulfill the table.🙈', showAfterRedirect: true}))
+    navigate('/signup');
+  }
 
   return (
       <div className="session-form">
@@ -61,7 +67,7 @@ const Login: React.FC = () => {
               <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
               </Button>
-              {' '}Or <a href="/signup">register now!</a>
+              {' '}Or <a onClick={onClick}>register now!</a>
             </Form.Item>
           </Form>
         </Card>

@@ -36,9 +36,9 @@ function App() {
             </PrivateRoute>
           }/>
           <Route path="/success" element={
-            <PrivateRoute>
+            <PublicRoute>
               <Success/>
-            </PrivateRoute>
+            </PublicRoute>
           }/>
         </Routes>
       </div>

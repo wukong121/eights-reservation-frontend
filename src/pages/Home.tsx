@@ -62,7 +62,6 @@ const Home: React.FC = () => {
 
   const onclick = async () => {
     await store.dispatch(authActions.logoutAction(null));
-    dispatch(alertActions.success({message: 'You have successfully exited!✨', showAfterRedirect: true}));
   }
 
   const onclickTest = async () => {

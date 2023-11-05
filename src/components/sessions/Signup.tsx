@@ -10,7 +10,9 @@ import {
 } from 'antd';
 import {SignUpValueType} from "../../types";
 import {useNavigate} from "react-router-dom";
-import {registerAction} from "../../api/sessionAPI";
+import {register} from "../../api/sessionAPI";
+import {useDispatch} from "react-redux";
+import {alertActions} from "../../store/alert.slice";
 
 const { Option } = Select;
 
@@ -47,14 +49,16 @@ const tailFormItemLayout = {
 const Signup: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onFinish = async (values: SignUpValueType) => {
-    console.log('Received values of form: ', values);
-    const response = await registerAction(values);
-    if (response && response.status === "success") {
-      navigate("/success");
+    console.log('Values from form: ', values);
+    const response = await register(values);
+    if (!response || response.status !== 'success') {
+      dispatch(alertActions.error({message: 'TODO', showAfterRedirect: true}))
+      return;
     }
-
+    navigate('/success')
   };
 
   const prefixSelector = (
