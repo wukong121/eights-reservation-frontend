@@ -1,18 +1,17 @@
 import React, {useState} from 'react';
 import {
   DesktopOutlined,
-  FileOutlined,
+  FileOutlined, LockOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import type {MenuProps} from 'antd';
-import {Breadcrumb, Button, Col, Layout, Menu, message, Row, Space, theme} from 'antd';
-import {RootState, store} from "../store";
-import {logoutAction} from "../api/sessionAPI";
+import {Breadcrumb, Button, Col, Divider, Layout, Menu, message, Row, Space, theme} from 'antd';
+import {store} from "../store";
 import {authActions} from "../store/auth.slice";
 import {useDispatch} from "react-redux";
-import {alertActions} from "../store/alert.slice";
+import {ReactComponent as Logo} from "../assets/images/Logo.svg"
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -33,8 +32,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined/>),
-  getItem('Option 2', '2', <DesktopOutlined/>),
+  getItem('Appointment', '1', <PieChartOutlined/>),
+  getItem('Room', '2', <PieChartOutlined/>),
   getItem('User', 'sub1', <UserOutlined/>, [
     getItem('Tom', '3'),
     getItem('Bill', '4'),
@@ -45,7 +44,6 @@ const items: MenuItem[] = [
 ];
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: {colorBgContainer},
@@ -71,7 +69,10 @@ const Home: React.FC = () => {
   return (
       <Layout style={{minHeight: '100vh'}}>
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <div className="demo-logo-vertical"/>
+          <div className="demo-logo-vertical">
+            <Logo width="100px" height="100px"/>
+          </div>
+          <Divider />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}/>
         </Sider>
         <Layout>
