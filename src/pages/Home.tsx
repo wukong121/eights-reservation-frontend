@@ -8,10 +8,11 @@ import {
 } from '@ant-design/icons';
 import type {MenuProps} from 'antd';
 import {Breadcrumb, Button, Col, Divider, Layout, Menu, message, Row, Space, theme} from 'antd';
-import {store} from "../store";
+import {RootState, store} from "../store";
 import {authActions} from "../store/auth.slice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ReactComponent as Logo} from "../assets/images/Logo.svg"
+import RoomCard from "../components/room/RoomCard";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -50,6 +51,7 @@ const Home: React.FC = () => {
   } = theme.useToken();
 
   const [messageApi, contextHolder] = message.useMessage();
+  // const userName = useSelector((state: RootState) => state.auth.value?.user.userName);
 
   const success = () => {
     messageApi.open({
@@ -91,10 +93,10 @@ const Home: React.FC = () => {
           <Content style={{margin: '0 16px'}}>
             <Breadcrumb style={{margin: '16px 0'}}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>peter</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{padding: 24, minHeight: 360, background: colorBgContainer}}>
-              Bill is a cat.
+              <RoomCard />
             </div>
           </Content>
           <Footer style={{textAlign: 'center'}}>Ant Design ©2023 Created by Ant UED</Footer>
