@@ -7,20 +7,22 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type {MenuProps} from 'antd';
-import {Breadcrumb, Button, Col, Divider, Layout, Menu, message, Row, Space, theme} from 'antd';
+import {Breadcrumb, Button, Col, Divider, Layout, Menu, message, Row, Space, Switch, theme} from 'antd';
 import {RootState, store} from "../store";
 import {authActions} from "../store/auth.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {ReactComponent as Logo} from "../assets/images/Logo.svg"
 import RoomCard from "../components/room/RoomCard";
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 const {Header, Content, Footer, Sider} = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = Required<MenuProps>['items'][number] & { onClick?: () => void };
 
 function getItem(
     label: React.ReactNode,
     key: React.Key,
+    onClick?: () => void,
     icon?: React.ReactNode,
     children?: MenuItem[],
 ): MenuItem {
@@ -32,19 +34,8 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('Appointment', '1', <PieChartOutlined/>),
-  getItem('Room', '2', <PieChartOutlined/>),
-  getItem('User', 'sub1', <UserOutlined/>, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined/>, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined/>),
-];
-
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: {colorBgContainer},
@@ -52,6 +43,23 @@ const Home: React.FC = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   // const userName = useSelector((state: RootState) => state.auth.value?.user.userName);
+
+  const handleMenuClick = (key: string) => {
+    navigate('/' + key);
+  };
+
+  const items: MenuItem[] = [
+    getItem('Appointment', '1', () => handleMenuClick('appointment'), <PieChartOutlined/>),
+    getItem('Room', '2', () => handleMenuClick('room'), <PieChartOutlined/>),
+    getItem('User', 'sub1', () => handleMenuClick('user'), <UserOutlined/>, [
+      getItem('Tom', '3'),
+      getItem('Bill', '4'),
+      getItem('Alex', '5'),
+    ]),
+    getItem('Team', 'sub2', () => handleMenuClick('team'),
+        <TeamOutlined/>, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Files', '9', () => handleMenuClick('files'), <FileOutlined/>),
+  ];
 
   const success = () => {
     messageApi.open({
@@ -74,7 +82,7 @@ const Home: React.FC = () => {
           <div className="demo-logo-vertical">
             <Logo width="100px" height="100px"/>
           </div>
-          <Divider />
+          <Divider/>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}/>
         </Sider>
         <Layout>
@@ -96,7 +104,9 @@ const Home: React.FC = () => {
               <Breadcrumb.Item>peter</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{padding: 24, minHeight: 360, background: colorBgContainer}}>
-              <RoomCard />
+              <Routes>
+                <Route path='/room' element={<RoomCard/>}/>
+              </Routes>
             </div>
           </Content>
           <Footer style={{textAlign: 'center'}}>Ant Design ©2023 Created by Ant UED</Footer>
